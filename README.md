@@ -1,68 +1,136 @@
-# CodeIgniter 4 Application Starter
+CodeIgniter 4 Application Starter
+What is CodeIgniter?
+CodeIgniter is a powerful PHP framework that is lightweight, fast, and flexible. It is designed for developers who need a simple and elegant toolkit to create full-featured web applications.
 
-## What is CodeIgniter?
+This repository contains a composer-installable app starter based on CodeIgniter 4, which is built from the official development repository.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+For more details, check out the official CodeIgniter 4 User Guide or visit the CodeIgniter forums.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Installation & Updates
+Step 1: Install CodeIgniter 4
+To create a new project, run the following composer command in your terminal:
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+bash
+Copy code
+composer create-project codeigniter4/appstarter
+This will install CodeIgniter 4 and set up a new application for you.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Step 2: Update Your Project
+Whenever there is a new release of the CodeIgniter framework, run:
 
-## Installation & updates
+bash
+Copy code
+composer update
+This will update your project to the latest stable release. When updating, make sure to review the release notes to see if there are any changes you need to apply to your app folder. You can copy or merge the affected files from vendor/codeigniter4/framework/app.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Setup
+Step 1: Configure the .env File
+Copy the .env.example to .env:
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+The .env file contains your environment-specific configuration. You should rename the example file to .env to configure your settings.
 
-## Setup
+bash
+Copy code
+cp .env.example .env
+Edit the .env file:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Open the .env file in a text editor and set up your environment variables for your application. The most important settings are:
 
-## Important Change with index.php
+Base URL: Set the base URL for your application (e.g., http://localhost:8080 for local development).
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+ini
+Copy code
+app.baseURL = 'http://localhost:8080'
+Database Configuration: Set up your database connection by configuring the following fields:
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+ini
+Copy code
+database.default.hostname = localhost
+database.default.database = ci4_project # Your database name
+database.default.username = root # Your database username
+database.default.password = # Your database password
+database.default.DBDriver = MySQLi # Set your DB driver (e.g., MySQLi, PostgreSQL)
+Save the .env file after editing.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Step 2: Run Database Migrations
+Run the migrations:
 
-## Repository Management
+To create the necessary tables in your database, run the following command in your terminal:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+bash
+Copy code
+php spark migrate
+This command will apply all migrations from the app/Database/Migrations directory and create the required tables in your database.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Verify Database:
 
-## Server Requirements
+After running the migration command, check your database to ensure the required tables have been created.
 
-PHP version 7.4 or higher is required, with the following extensions installed:
+Step 3: Start the Development Server
+Once the environment and database are set up, you can start the PHP built-in development server.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+Run the development server:
 
-> [!WARNING]
-> The end of life date for PHP 7.4 was November 28, 2022.
-> The end of life date for PHP 8.0 was November 26, 2023.
-> If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> The end of life date for PHP 8.1 will be November 25, 2024.
+Use the following command to start the server:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+bash
+Copy code
+php spark serve
+By default, this will run the server on http://localhost:8080. You can access your application by visiting this URL in your browser.
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Access the Application:
+
+Open your browser and navigate to:
+
+arduino
+Copy code
+http://localhost:8080
+You should see the CodeIgniter 4 welcome page or the landing page you have set up.
+
+Server Requirements
+To run CodeIgniter 4, ensure your server meets the following requirements:
+
+PHP 7.4 or higher.
+The following PHP extensions:
+intl (for internationalization support).
+mbstring (for string manipulation).
+json (enabled by default).
+mysqlnd (if using MySQL).
+libcurl (if using HTTP\CURLRequest).
+Note: PHP 7.4 reached end-of-life in November 2022. If you're still using PHP 7.4, consider upgrading to PHP 8.1 or newer.
+
+Repository Management
+We track bugs and approved development work packages in the GitHub issues of the main CodeIgniter repository. You can also use the CodeIgniter forum for support and to discuss feature requests.
+
+This repository is a distribution built by the release preparation script. For issues with the starter app or the framework, you can raise them on the forum or as issues in the main repository.
+
+Troubleshooting
+If you encounter issues with migrations:
+Check your .env file: Ensure that your database settings (hostname, username, password, etc.) are correct.
+Migration files: Ensure that the migration files exist in the app/Database/Migrations folder and are correctly defined.
+If php spark serve doesn't work:
+Check PHP version: Ensure PHP is installed by running php -v. If not, install PHP from php.net.
+Check for file permission issues: Make sure your project files have the correct permissions, especially if running on a server.
+If you get a "Database connection failed" error:
+Double-check your database credentials in the .env file.
+Ensure the database server is running and accessible from your application.
+Additional Commands
+Rollback migrations (undo changes):
+
+bash
+Copy code
+php spark migrate:rollback
+Create a new migration:
+
+bash
+Copy code
+php spark make:migration <migration_name>
+Check the status of migrations:
+
+bash
+Copy code
+php spark migrate:status
+Conclusion
+By following the steps in this guide, you should be able to set up a CodeIgniter 4 application, configure your environment, run migrations, and start the built-in development server. If you run into any issues, be sure to consult the official CodeIgniter 4 User Guide or the CodeIgniter Forum.
+
+Happy coding!
