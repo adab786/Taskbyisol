@@ -13,6 +13,10 @@ class Home extends BaseController
         $this->studentModel = new StudentModel();
     }
 
+    public function index(){
+        return view('welcome_message');
+    }
+
     // Method to display student details
     public function view_student($id)
     {
